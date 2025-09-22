@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { cars } from '../data/mock';
 import VideoModal from '../components/VideoModal';
 import { calculateImportCosts } from '../utils/pricing';
-import { FaPlayCircle, FaCalculator, FaCheckCircle, FaCog, FaTachometerAlt, FaGasPump } from 'react-icons/fa';
+import { FaPlayCircle, FaCalculator, FaCheckCircle, FaCog, FaTachometerAlt, FaGasPump, FaWhatsapp } from 'react-icons/fa';
 
 const CarDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,6 +17,10 @@ const CarDetailPage: React.FC = () => {
   }
   
   const { totalCost } = calculateImportCosts(car.price);
+  
+  const whatsappNumber = "212621903906";
+  const whatsappMessage = encodeURIComponent(`Bonjour, je suis intéressé par la ${car.year} ${car.make} ${car.model}`);
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -84,12 +88,23 @@ const CarDetailPage: React.FC = () => {
                 </div>
                 <p className="text-sm text-gray-500 mb-4">Inclut transport, douane et nos frais de service. Le prix au Maroc est de {car.marketPriceMorocco.toLocaleString('fr-FR')} € en moyenne.</p>
 
-                <Link to={`/simulation/${car.id}`}>
-                    <button className="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center space-x-2">
-                        <FaCalculator />
-                        <span>Simuler le Coût en Détail</span>
-                    </button>
-                </Link>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    <a 
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center space-x-2"
+                    >
+                        <FaWhatsapp />
+                        <span>Contacter sur WhatsApp</span>
+                    </a>
+                    <Link to={`/simulation/${car.id}`} className="w-full">
+                        <button className="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center space-x-2">
+                            <FaCalculator />
+                            <span>Simuler le Coût</span>
+                        </button>
+                    </Link>
+                </div>
             </div>
           </div>
         </div>
